@@ -1,8 +1,8 @@
 # loki-config-template
 
 A starter template for sharing [Loki](https://github.com/Dark-Alex-17/loki)
-configurations — agents, roles, macros, tools, and MCP servers — via any
-git repository.
+configurations via any Git repository. Repositories structured like this enable
+users to share gents, roles, macros, tools, and MCP servers in Loki easily.
 
 Fork this repo, customize the assets to your taste, then install your fork
 into Loki with a single command.
@@ -15,7 +15,7 @@ Install everything in this template into your local Loki config:
 loki --install-from https://github.com/<you>/loki-config-template
 ```
 
-…or from within the Loki REPL:
+or from within the Loki REPL:
 
 ```
 .install remote https://github.com/<you>/loki-config-template
@@ -74,12 +74,12 @@ prompted to keep yours, take the remote's, or rename the remote entry.
 
 ## What's in this template
 
-| Asset | File | What it is |
-|---|---|---|
-| Agent  | `agents/hello-agent/config.yaml`  | Tiny LLM-loop agent that greets the user. |
-| Role   | `roles/explainer.md`              | Role that explains technical concepts simply. |
-| Macro  | `macros/greet.yaml`               | Macro showing positional and rest-arg variables. |
-| Tool   | `functions/tools/greet.sh`        | Bash tool using Loki's argc-style annotations. |
+| Asset  | File                              | What it is                                              |
+|--------|-----------------------------------|---------------------------------------------------------|
+| Agent  | `agents/hello-agent/config.yaml`  | Tiny LLM-loop agent that greets the user.               |
+| Role   | `roles/explainer.md`              | Role that explains technical concepts simply.           |
+| Macro  | `macros/greet.yaml`               | Macro showing positional and rest-arg variables.        |
+| Tool   | `functions/tools/greet.sh`        | Bash tool using Loki's argc-style annotations.          |
 | MCP    | `functions/mcp.json`              | One vanilla server + one with a vault secret reference. |
 
 Each sample is intentionally minimal. Replace it with your own work, or
@@ -135,9 +135,7 @@ the full secrets workflow.
 
 - Pin your fork to tagged releases so consumers can install with
   `#<tag>` for reproducibility.
-- Keep agent-local logic in `agents/<name>/scripts/` and tools.sh — global
+- Keep agent-local logic in `agents/<name>/scripts/`. Global
   tools (in `functions/tools/`) are shared across every agent.
 - The `mcp.json` merge is *additive*. If you remove a server from your
-  fork, existing installs of that server are NOT pruned. That's by design.
-- Use `--filter` to ship just one category if your repo is mixed (e.g., a
-  repo of just MCP servers can be consumed with `--filter mcp_config`).
+  fork, existing installs of that server are _not_ pruned. That's by design.

@@ -13,4 +13,4 @@ When the user asks about a topic:
 - End with a concrete example or analogy that grounds the abstract part.
 
 Keep responses focused. If the user wants more depth on a sub-topic, let
-them ask — don't volunteer every related concept upfront.
+them ask. Don't volunteer every related concept upfront.

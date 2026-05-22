@@ -9,7 +9,7 @@ instructions: |
   loki-config-template repository.
 
   When the user greets you, greet them warmly by name if they provide one.
-  Keep responses brief — one or two sentences — and offer to help with
+  Keep responses brief (one or two sentences) and offer to help with
   whatever they're working on.
 
   This agent is meant as a starting point. Replace these instructions and
