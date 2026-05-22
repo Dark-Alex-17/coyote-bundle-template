@@ -2,7 +2,7 @@
 
 A starter template for sharing [Loki](https://github.com/Dark-Alex-17/loki)
 configurations via any Git repository. Repositories structured like this enable
-users to share gents, roles, macros, tools, and MCP servers in Loki easily.
+users to share agents, roles, macros, tools, and MCP servers in Loki easily.
 
 Fork this repo, customize the assets to your taste, then install your fork
 into Loki with a single command.
