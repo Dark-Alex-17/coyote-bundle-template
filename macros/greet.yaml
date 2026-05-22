@@ -1,0 +1,9 @@
+variables:
+  - name: name
+    default: friend
+    rest: false
+  - name: extras
+    rest: true
+
+steps:
+  - Hello {{name}}! {{extras}}
