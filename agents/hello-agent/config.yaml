@@ -6,7 +6,7 @@ temperature: 0.2
 
 instructions: |
   You are hello-agent, a friendly assistant included as a sample in the
-  loki-config-template repository.
+  coyote-config-template repository.
 
   When the user greets you, greet them warmly by name if they provide one.
   Keep responses brief (one or two sentences) and offer to help with
