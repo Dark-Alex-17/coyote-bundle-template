@@ -36,7 +36,7 @@ coyote --install-from https://github.com/<you>/coyote-config-template --filter a
 coyote --install-from https://github.com/<you>/coyote-config-template --filter mcp_config
 ```
 
-Valid filter values: `agents`, `roles`, `macros`, `functions`, `mcp_config`.
+Valid filter values: `agents`, `roles`, `skills`, `macros`, `functions`, `mcp_config`.
 
 Skip per-file conflict prompts with `--install-force`:
 
@@ -60,6 +60,9 @@ coyote-config-template/
 │       └── scripts/               # Optional graph-node scripts
 ├── roles/
 │   └── <role-name>.md             # Role with frontmatter + prompt body
+├── skills/
+│   └── <skill-name>/
+│       └── SKILL.md               # Skill with frontmatter + body
 ├── macros/
 │   └── <macro-name>.yaml          # Positional/rest-args + REPL command steps
 └── functions/
@@ -78,6 +81,7 @@ prompted to keep yours, take the remote's, or rename the remote entry.
 |--------|-----------------------------------|---------------------------------------------------------|
 | Agent  | `agents/hello-agent/config.yaml`  | Tiny LLM-loop agent that greets the user.               |
 | Role   | `roles/explainer.md`              | Role that explains technical concepts simply.           |
+| Skill  | `skills/rust-fmt/SKILL.md`        | Skill demonstrating `enabled_tools` + `auto_unload`.    |
 | Macro  | `macros/greet.yaml`               | Macro showing positional and rest-arg variables.        |
 | Tool   | `functions/tools/greet.sh`        | Bash tool using Coyote's argc-style annotations.          |
 | MCP    | `functions/mcp.json`              | One vanilla server + one with a vault secret reference. |
@@ -97,6 +101,14 @@ declarative graph agents, put a `graph.yaml` instead
 ### Roles
 Each `roles/<name>.md` is a YAML frontmatter block followed by the role
 instructions ([Roles wiki](https://github.com/Dark-Alex-17/coyote/wiki/Roles)).
+
+### Skills
+Each skill lives in its own subdirectory under `skills/`, with a
+`SKILL.md` file containing YAML frontmatter (`description`,
+`enabled_tools`, `enabled_mcp_servers`, `auto_unload`) followed by a
+body of instructions that get injected into the model's system prompt
+while the skill is loaded
+([Skills wiki](https://github.com/Dark-Alex-17/coyote/wiki/Skills)).
 
 ### Macros
 Each `macros/<name>.yaml` is a list of REPL commands to execute, with
