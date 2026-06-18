@@ -1,0 +1,23 @@
+schemaVersion: "1"
+kind: mixin
+name: agent-hello
+description: >
+  Example sbx mixin for the hello-agent. Coyote auto-discovers and applies
+  any sbx-mixin.yaml co-located with an agent whenever you run
+  `coyote --sandbox`. Use this to declare any binaries the agent needs to
+  install inside the sandbox and any network domains it needs to reach.
+  Delete this file if your agent doesn't need extra sandbox setup.
+
+network:
+  allowedDomains:
+    # Replace with the domains your agent actually hits.
+    # Example: an agent that calls api.example.com would add:
+    # - "api.example.com:443"
+
+commands:
+  install:
+    # Replace with any binaries your agent depends on. Runs as the
+    # `agent` user (UID 1000) with passwordless sudo. Example:
+    # - command: "sudo apt-get update && sudo apt-get install -y httpie"
+    #   user: "1000"
+    #   description: Install httpie for hello-agent's API calls

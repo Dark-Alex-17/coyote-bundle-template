@@ -77,14 +77,14 @@ prompted to keep yours, take the remote's, or rename the remote entry.
 
 ## What's in this template
 
-| Asset  | File                              | What it is                                              |
-|--------|-----------------------------------|---------------------------------------------------------|
-| Agent  | `agents/hello-agent/config.yaml`  | Tiny LLM-loop agent that greets the user.               |
-| Role   | `roles/explainer.md`              | Role that explains technical concepts simply.           |
-| Skill  | `skills/rust-fmt/SKILL.md`        | Skill demonstrating `enabled_tools` + `auto_unload`.    |
-| Macro  | `macros/greet.yaml`               | Macro showing positional and rest-arg variables.        |
-| Tool   | `functions/tools/greet.sh`        | Bash tool using Coyote's argc-style annotations.          |
-| MCP    | `functions/mcp.json`              | One vanilla server + one with a vault secret reference. |
+| Asset | File                             | What it is                                              |
+|-------|----------------------------------|---------------------------------------------------------|
+| Agent | `agents/hello-agent/config.yaml` | Tiny LLM-loop agent that greets the user.               |
+| Role  | `roles/explainer.md`             | Role that explains technical concepts simply.           |
+| Skill | `skills/rust-fmt/SKILL.md`       | Skill demonstrating `enabled_tools` + `auto_unload`.    |
+| Macro | `macros/greet.yaml`              | Macro showing positional and rest-arg variables.        |
+| Tool  | `functions/tools/greet.sh`       | Bash tool using Coyote's argc-style annotations.        |
+| MCP   | `functions/mcp.json`             | One vanilla server + one with a vault secret reference. |
 
 Each sample is intentionally minimal. Replace it with your own work, or
 delete what you don't need.
@@ -127,6 +127,31 @@ Add or modify entries in `functions/mcp.json`
 Use `{{SECRET_NAME}}` placeholders for values you don't want to commit;
 Coyote will detect missing secrets after the merge and prompt you to add
 them to the vault (or list them for you to add via `coyote --add-secret`).
+
+### (Optional) Sandbox mixins (`sbx-mixin.yaml`)
+If consumers of your bundle run Coyote in [Sandbox mode](https://github.com/Dark-Alex-17/coyote/wiki/Sandboxes),
+they'll need any external binaries and network domain allowances declared
+in an `sbx-mixin.yaml` file. Coyote auto-discovers mixin files at known
+locations on every `coyote --sandbox` invocation, no flags required.
+
+This template ships two starter examples:
+
+- **`agents/hello-agent/sbx-mixin.yaml`:** Per-agent mixin, applied when
+  the agent is installed and any `coyote --sandbox` runs.
+- **`functions/sbx-mixin.yaml`:** Shared by all custom tools in this
+  bundle. For per-tool granularity, use `functions/<tool>/sbx-mixin.yaml`
+  instead.
+
+Both starters are commented-out templates. Simply open them and fill in the
+domains and install commands your assets actually need. Delete the files
+if they're not needed.
+
+> ⚠️ **Privilege grant.** Anyone installing your bundle is granting the
+> mixins' install commands (passwordless sudo) and network domain
+> allowances inside their sandboxes. Document any non-obvious entries in
+> this README so they don't have to grep your YAML to find out what
+> they're accepting. See the [Sharing Configurations - Sandbox Implications](https://github.com/Dark-Alex-17/coyote/wiki/Sharing-Configurations#sandbox-implications)
+> wiki page for the full security model.
 
 ## Secrets workflow
 

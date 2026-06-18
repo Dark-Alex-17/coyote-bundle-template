@@ -1,0 +1,25 @@
+schemaVersion: "1"
+kind: mixin
+name: shared-custom-tools
+description: >
+  Example global sbx mixin that applies to every Coyote sandbox you launch.
+  Use this for binaries and network domains shared by multiple custom tools
+  in functions/tools/. For per-tool needs that aren't shared, create
+  functions/<tool-name>/sbx-mixin.yaml instead (per-tool mixins are also
+  auto-discovered).
+
+  Delete this file if your fork doesn't need extra sandbox setup.
+
+network:
+  allowedDomains:
+    # Replace with the domains your custom tools reach.
+    # Example: a tool that calls a private API:
+    # - "api.your-company.com:443"
+
+commands:
+  install:
+    # Replace with binaries your custom tools depend on. Runs as the
+    # `agent` user (UID 1000) with passwordless sudo. Example:
+    # - command: "sudo apt-get update && sudo apt-get install -y httpie xmlstarlet"
+    #   user: "1000"
+    #   description: Install custom tool dependencies
