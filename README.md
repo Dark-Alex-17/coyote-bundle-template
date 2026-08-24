@@ -1,39 +1,52 @@
-# coyote-config-template
+# coyote-bundle-template
 
-A starter template for sharing [Coyote](https://github.com/Dark-Alex-17/coyote)
-configurations via any Git repository. Repositories structured like this enable
-users to share agents, roles, macros, tools, and MCP servers in Coyote easily.
+A starter template for [Coyote](https://github.com/Dark-Alex-17/coyote)
+bundles: shareable configurations distributed via any Git repository.
+Repositories structured like this let users share agents, roles, skills,
+macros, tools, and MCP servers in Coyote easily. Bundles are Coyote's
+equivalent of plugins.
 
 Fork this repo, customize the assets to your taste, then install your fork
 into Coyote with a single command.
 
 ## Quick start
 
-Install everything in this template into your local Coyote config:
+Install everything in this template into your local Coyote config using the
+`owner/repo` shorthand (expanded against github.com by default):
 
 ```sh
-coyote --install-from https://github.com/<you>/coyote-config-template
+coyote --install <you>/coyote-bundle-template
 ```
 
-or from within the Coyote REPL:
+or with a full Git URL, or from within the Coyote REPL:
+
+```sh
+coyote --install https://github.com/<you>/coyote-bundle-template
+```
 
 ```
-.install remote https://github.com/<you>/coyote-config-template
+.install <you>/coyote-bundle-template
+```
+
+Hosting somewhere other than GitHub? Point the shorthand at your forge:
+
+```sh
+coyote --install <group>/<subgroup>/coyote-bundle-template --git-host gitlab.com
 ```
 
 Pin to a specific branch, tag, or commit by suffixing `#<ref>`:
 
 ```sh
-coyote --install-from https://github.com/<you>/coyote-config-template#v1.0.0
-coyote --install-from https://github.com/<you>/coyote-config-template#main
-coyote --install-from https://github.com/<you>/coyote-config-template#abc1234
+coyote --install <you>/coyote-bundle-template#v1.0.0
+coyote --install <you>/coyote-bundle-template#main
+coyote --install <you>/coyote-bundle-template#abc1234
 ```
 
 Restrict the install to a single asset category with `--filter`:
 
 ```sh
-coyote --install-from https://github.com/<you>/coyote-config-template --filter agents
-coyote --install-from https://github.com/<you>/coyote-config-template --filter mcp_config
+coyote --install <you>/coyote-bundle-template --filter agents
+coyote --install <you>/coyote-bundle-template --filter mcp_config
 ```
 
 Valid filter values: `agents`, `roles`, `skills`, `macros`, `functions`, `mcp_config`.
@@ -41,16 +54,63 @@ Valid filter values: `agents`, `roles`, `skills`, `macros`, `functions`, `mcp_co
 Skip per-file conflict prompts with `--install-force`:
 
 ```sh
-coyote --install-from https://github.com/<you>/coyote-config-template --install-force
+coyote --install <you>/coyote-bundle-template --install-force
 ```
+
+## Managing the installed bundle
+
+Coyote records everything a bundle install writes (file paths, MCP server
+entries, and content hashes) in a provenance store, which powers the full
+lifecycle:
+
+```sh
+coyote --list-bundles                          # name, version, source, drift
+coyote --install <bundle-name>                 # update by installed name
+coyote --update-bundle <bundle-name>           # update from the recorded source
+coyote --update-bundle <bundle-name>#<ref>     # move a pin while updating
+coyote --update-bundle <bundle-name> --yes     # non-interactive: keep local edits, refresh the rest
+coyote --uninstall <bundle-name>               # remove owned files and MCP entries
+coyote --uninstall <bundle-name> --yes         # skip the confirmation prompt
+```
+
+The same operations are available in the REPL as `.list bundles`,
+`.install <bundle-name>`, and `.uninstall <bundle-name> [--yes]`.
+
+Updates and uninstalls never clobber your local edits: files you modified
+after install are prompted for (and kept by default on uninstall), while
+untouched files refresh or delete silently. See the
+[Sharing Configurations wiki](https://github.com/Dark-Alex-17/coyote/wiki/Sharing-Configurations)
+for the full ownership and drift model.
+
+## The manifest (`coyote-bundle.yaml`)
+
+The optional manifest at the repo root declares the bundle's identity, and
+nothing else. Coyote discovers installable content by scanning the asset
+directories; the manifest never lists files.
+
+```yaml
+name: coyote-bundle-template
+version: "1.0.0"
+description: Starter template for Coyote bundles
+homepage: https://github.com/Dark-Alex-17/coyote-bundle-template
+```
+
+- `name` is how consumers refer to the bundle in `--update-bundle` and
+  `--uninstall`. Ship a manifest so your bundle keeps a stable name across
+  forks; without one, Coyote derives the name from the repository name.
+- `version` shows up in `--list-bundles` (falls back to the short commit SHA).
+- If your chosen name collides with another installed bundle or a built-in
+  asset category, Coyote qualifies it with the repo owner (`owner/name`)
+  instead of overwriting anything.
 
 ## Layout
 
-Coyote only reads these top-level directories. Anything else in the repo is
-ignored.
+Coyote only reads the manifest and these top-level directories. Anything
+else in the repo is ignored.
 
 ```
-coyote-config-template/
+coyote-bundle-template/
+├── coyote-bundle.yaml             # Optional identity manifest
 ├── agents/
 │   └── <agent-name>/
 │       ├── config.yaml            # LLM-loop agent
@@ -74,6 +134,8 @@ coyote-config-template/
 The `functions/mcp.json` file is **merged** into your existing local file
 on install (not overwritten). For conflicting server names, you'll be
 prompted to keep yours, take the remote's, or rename the remote entry.
+On update, entries the bundle installed and you never edited take the
+remote side automatically.
 
 ## What's in this template
 
@@ -156,7 +218,7 @@ if they're not needed.
 ## Secrets workflow
 
 Anywhere you reference a secret in `mcp.json` (or in any installed file),
-use the `{{NAME}}` placeholder syntax. After `--install-from` completes:
+use the `{{NAME}}` placeholder syntax. After an install completes:
 
 - **Interactive mode**: Coyote prompts you per-secret to add the value to
   the vault. On the first "Yes," it creates the vault password file if
@@ -170,9 +232,15 @@ the full secrets workflow.
 
 ## Tips for forks
 
+- Ship a `coyote-bundle.yaml` with your own `name` so your bundle keeps a
+  stable identity no matter what consumers or forks call the repository.
 - Pin your fork to tagged releases so consumers can install with
-  `#<tag>` for reproducibility.
+  `#<tag>` for reproducibility, and bump the manifest `version` alongside
+  your tags so `coyote --list-bundles` shows something meaningful.
 - Keep agent-local logic in `agents/<name>/scripts/`. Global
   tools (in `functions/tools/`) are shared across every agent.
-- The `mcp.json` merge is *additive*. If you remove a server from your
-  fork, existing installs of that server are _not_ pruned. That's by design.
+- Removing a file from your fork does propagate: on the next
+  `--update-bundle`, consumers are asked whether to keep or delete files
+  the bundle no longer ships. Removing an `mcp.json` server does not prune
+  existing installs of that entry; uninstalling the bundle removes the
+  entries it added (unless the user edited them).

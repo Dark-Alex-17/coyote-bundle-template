@@ -1,0 +1,7 @@
+# Bundle identity (optional). Without this file, Coyote derives the bundle
+# name from the repository name. The manifest never lists files: everything
+# Coyote installs is discovered by scanning the asset directories.
+name: coyote-bundle-template
+version: "1.0.0"
+description: Starter template for Coyote bundles
+homepage: https://github.com/Dark-Alex-17/coyote-bundle-template
