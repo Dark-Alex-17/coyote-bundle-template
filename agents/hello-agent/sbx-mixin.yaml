@@ -1,4 +1,4 @@
-schemaVersion: "1"
+schemaVersion: '2'
 kind: mixin
 name: agent-hello
 description: >
@@ -8,13 +8,14 @@ description: >
   install inside the sandbox and any network domains it needs to reach.
   Delete this file if your agent doesn't need extra sandbox setup.
 
-network:
-  allowedDomains:
-    # Replace with the domains your agent actually hits.
-    # Example: an agent that calls api.example.com would add:
-    # - "api.example.com:443"
+permissions:
+  network:
+    allowedDomains:
+      # Replace with the domains your agent actually hits.
+      # Example: an agent that calls api.example.com would add:
+      # - "api.example.com:443"
 
-commands:
+setup:
   install:
     # Replace with any binaries your agent depends on. Runs as the
     # `agent` user (UID 1000) with passwordless sudo. Example:

@@ -1,4 +1,4 @@
-schemaVersion: "1"
+schemaVersion: '2'
 kind: mixin
 name: shared-custom-tools
 description: >
@@ -10,13 +10,14 @@ description: >
 
   Delete this file if your fork doesn't need extra sandbox setup.
 
-network:
-  allowedDomains:
-    # Replace with the domains your custom tools reach.
-    # Example: a tool that calls a private API:
-    # - "api.your-company.com:443"
+permissions:
+  network:
+    allow:
+      # Replace with the domains your custom tools reach.
+      # Example: a tool that calls a private API:
+      # - "api.your-company.com:443"
 
-commands:
+setup:
   install:
     # Replace with binaries your custom tools depend on. Runs as the
     # `agent` user (UID 1000) with passwordless sudo. Example:
