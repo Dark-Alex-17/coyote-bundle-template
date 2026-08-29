@@ -46,10 +46,10 @@ Restrict the install to a single asset category with `--filter`:
 
 ```sh
 coyote --install <you>/coyote-bundle-template --filter agents
-coyote --install <you>/coyote-bundle-template --filter mcp_config
+coyote --install <you>/coyote-bundle-template --filter mcp-config
 ```
 
-Valid filter values: `agents`, `roles`, `skills`, `macros`, `functions`, `mcp_config`.
+Valid filter values: `agents`, `roles`, `skills`, `macros`, `functions`, `mcp-config`.
 
 Skip per-file conflict prompts with `--install-force`:
 
