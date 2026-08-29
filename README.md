@@ -125,13 +125,13 @@ coyote-bundle-template/
 │       └── SKILL.md               # Skill with frontmatter + body
 ├── macros/
 │   └── <macro-name>.yaml          # Positional/rest-args + REPL command steps
+├── mcp.json                       # MCP server config (merged with local)
 └── functions/
     ├── tools/
     │   └── *.sh / *.py / *.ts     # Global tools (auto chmod +x on install)
-    └── mcp.json                   # MCP server config (merged with local)
 ```
 
-The `functions/mcp.json` file is **merged** into your existing local file
+The `mcp.json` file is **merged** into your existing local file
 on install (not overwritten). For conflicting server names, you'll be
 prompted to keep yours, take the remote's, or rename the remote entry.
 On update, entries the bundle installed and you never edited take the
@@ -146,7 +146,7 @@ remote side automatically.
 | Skill | `skills/rust-fmt/SKILL.md`       | Skill demonstrating `enabled_tools` + `auto_unload`.    |
 | Macro | `macros/greet.yaml`              | Macro showing positional and rest-arg variables.        |
 | Tool  | `functions/tools/greet.sh`       | Bash tool using Coyote's argc-style annotations.        |
-| MCP   | `functions/mcp.json`             | One vanilla server + one with a vault secret reference. |
+| MCP   | `mcp.json`                       | One vanilla server + one with a vault secret reference. |
 
 Each sample is intentionally minimal. Replace it with your own work, or
 delete what you don't need.
@@ -184,7 +184,7 @@ Bash, Python, and TypeScript scripts are auto-detected and given the
 executable bit on install.
 
 ### MCP servers
-Add or modify entries in `functions/mcp.json`
+Add or modify entries in `mcp.json`
 ([MCP Servers wiki](https://github.com/Dark-Alex-17/coyote/wiki/MCP-Servers)).
 Use `{{SECRET_NAME}}` placeholders for values you don't want to commit;
 Coyote will detect missing secrets after the merge and prompt you to add
